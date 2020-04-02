@@ -11,7 +11,8 @@ MONGO_CONTAINER=mongo_container_doggy
 
 help:
 	echo "\n*** Makefile Commands ***\nbuild-nginx\\nrun-nginx\nshell-nginx\nkill-nginx\n\n\
-build-web-app\nrun-web-app\ntest-web-app\nrun-web-app-2\nrun-web-app-3\nshell-web-app\nkill-web-app\nkill-web-app-2\nkill-web-app-3\n\n"
+build-web-app\nrun-web-app\ntest-web-app\nrun-web-app-2\nrun-web-app-3\nshell-web-app\nkill-web-app\nkill-web-app-2\nkill-web-app-3\n\n\
+build-mongo\nrun-mongo\ntest-mongo\n"
 
 build-nginx:
 	docker build -t $(NGINX_IMAGE) -f nginx.dockerfile .
@@ -46,15 +47,21 @@ kill-web-app-3:
 
 
 build-api:
-	echo 'build-api'
+	docker build -t $(API_IMAGE) -f api.dockerfile .
+run-api:
+	docker run -p 9100:80 -d --rm --name $(API_CONTAINER) $(API_IMAGE)
+shell-api:
+	docker exec -it $(API_CONTAINER) bash
+test-api:
+	docker run -p 9100:80 --rm --name $(API_CONTAINER) $(API_IMAGE)
 
 
 build-mongo:
 	docker build -t $(MONGO_IMAGE) -f mongodb.dockerfile .
 test-mongo:
-	docker run -it --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE) /bin/bash
+	docker run -it -p 10000:10000 --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE) /bin/bash
 run-mongo:
-	docker run --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE)
+	docker run -p 10000:10000 --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE)
 
 
 clean:
