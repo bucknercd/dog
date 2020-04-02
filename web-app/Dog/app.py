@@ -10,6 +10,10 @@ templates = Jinja2Templates(directory="templates")
 async def get_index(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
+@app.get('/login')
+async def get_login_page(request: Request):
+    return templates.TemplateResponse('login.html', {'request': request})
+
 @app.get('/pricing')
 async def get_pricing(request: Request):
     return templates.TemplateResponse('pricing.html', {'request': request})
