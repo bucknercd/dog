@@ -9,3 +9,8 @@ RUN apt-get update && apt-get install -y \
 	vim \
 	curl \
 	telnet
+
+WORKDIR /Mongo
+COPY mongo/* /Mongo/
+#CMD ./keep_alive.sh
+CMD ./start_mongo.sh

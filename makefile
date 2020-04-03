@@ -61,7 +61,9 @@ build-mongo:
 test-mongo:
 	docker run -it -p 10000:10000 --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE) /bin/bash
 run-mongo:
-	docker run -p 10000:10000 --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE)
+	docker run -p 10000:10000 -d -v /home/chris/MONGO:/data/db --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE)
+shell-mongo:
+	docker exec -it $(MONGO_CONTAINER) bash
 
 
 clean:
