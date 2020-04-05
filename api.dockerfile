@@ -22,9 +22,11 @@ RUN pip3 install \
 	gunicorn \
 	uvicorn \
 	aiofiles \
+	python-dotenv \
 	pymongo
 	
 # Add demo app
 COPY api/Project/ /Project
+COPY .env /Project/app/core
 WORKDIR /Project
 CMD python3 start_server.py
