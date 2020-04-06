@@ -1,4 +1,4 @@
 use admin
-db.createUser({user: "root", pwd: "somepass", roles: ["someuser"]})
+db.createUser({user: "username", pwd: "password", roles: ["root"]})
 
 
