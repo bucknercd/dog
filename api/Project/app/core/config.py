@@ -18,11 +18,11 @@ SECRET_KEY = Secret(os.getenv('SECRET_KEY', 'secret key for project'))
 #ALLOWED_HOSTS = CommaSeparatedStrings(os.getenv('ALLOWED_HOSTS', ''))
 
 MONGO_HOST = os.getenv('MONGO_HOST', 'localhost')
-MONGO_PORT = int(os.getenv('MONGO_PORT', 10000))
-MONGO_USER = os.getenv('MONGO_USER', 'root')
-MONGO_PASS = os.getenv('MONGO_PASSWORD', 'BOGUS')
+MONGO_PORT = int(os.getenv('MONGO_PORT', 1234))
+MONGO_USER = os.getenv('MONGO_USER', 'user')
+MONGO_PASS = os.getenv('MONGO_PASS', 'password')
 MONGO_DB = os.getenv('MONGO_DB', 'doggy')
-
+MONGO_AUTH_TYPE = os.getenv('MONGO_AUTH_TYPE', 'SCRAM-SHA-1')
 
 database_name = MONGO_DB
 users_collection_name = 'users'

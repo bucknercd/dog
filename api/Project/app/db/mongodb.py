@@ -1,14 +1,14 @@
 #from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import MongoClient
-from ..core.config import MONGO_HOST,MONGO_PORT,MONGO_USER,MONGO_PASS,MONGO_DB
+from ..core.config import MONGO_HOST,MONGO_PORT,MONGO_USER,MONGO_PASS,MONGO_DB,MONGO_AUTH_TYPE
 class DBClient(object):	
     def __init__(self):
         self.client = MongoClient(f'{MONGO_HOST}:{MONGO_PORT}',
 				   username=MONGO_USER,
 				   password=MONGO_PASS,
 				   authSource='admin',
-                                   # the auth type 
-                                   )
+                                   authMechanism=MONGO_AUTH_TYPE,
+                                 )
 
     def connect_to_mongo(self):
         #self.client = AsyncIOMotorClient(str(MONGODB_URL),maxPoolSize=MAX_CONNECTIONS_COUNT, minPoolSize=MIN_CONNECTIONS_COUNT)

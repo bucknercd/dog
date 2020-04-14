@@ -27,6 +27,6 @@ RUN pip3 install \
 	
 # Add demo app
 COPY api/Project/ /Project
-COPY .env /Project/app/core
+COPY .env /Project
 WORKDIR /Project
 CMD python3 start_server.py

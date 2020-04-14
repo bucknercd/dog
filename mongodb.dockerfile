@@ -12,5 +12,4 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /Mongo
 COPY mongo/* /Mongo/
-#CMD ./keep_alive.sh
 CMD ./start_mongo.sh

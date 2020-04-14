@@ -12,7 +12,7 @@ MONGO_CONTAINER=mongo_container_doggy
 help:
 	echo "\n*** Makefile Commands ***\nbuild-nginx\\nrun-nginx\nshell-nginx\nkill-nginx\n\n\
 build-web-app\nrun-web-app\ntest-web-app\nrun-web-app-2\nrun-web-app-3\nshell-web-app\nkill-web-app\nkill-web-app-2\nkill-web-app-3\n\n\
-build-mongo\nrun-mongo\ntest-mongo\n"
+build-mongo\nrun-mongo\ntest-mongo\nshell-mongo\nkill-mongo"
 
 build-nginx:
 	docker build -t $(NGINX_IMAGE) -f nginx.dockerfile .
@@ -54,9 +54,12 @@ shell-api:
 	docker exec -it $(API_CONTAINER) bash
 test-api:
 	docker run -p 9100:80 --rm --name $(API_CONTAINER) $(API_IMAGE)
+kill-api:
+	docker rm $(API_CONTAINER) -f
 
 
 build-mongo:
+	perl setup_create_admin.pl
 	docker build -t $(MONGO_IMAGE) -f mongodb.dockerfile .
 test-mongo:
 	docker run -it -p 10000:10000 --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE) /bin/bash
@@ -64,6 +67,9 @@ run-mongo:
 	docker run -p 10000:10000 -d -v /home/chris/MONGO:/data/db --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE)
 shell-mongo:
 	docker exec -it $(MONGO_CONTAINER) bash
+kill-mongo:
+	docker rm $(MONGO_CONTAINER) -f
+	rm -rf /home/chris/MONGO/*
 
 
 clean:

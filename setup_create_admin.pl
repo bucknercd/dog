@@ -10,16 +10,8 @@ foreach my $line (<FH>) {
 }
 close(FH);
 
-open(FH, "mongo/create_admin.js");
-my @output;
-foreach my $line (<FH>) {
-	$line =~ s/admin/$secrets{'MONGO_DB'}/;
-	$line =~ s/username/$secrets{'MONGO_USER'}/;
-	$line =~ s/password/$secrets{'MONGO_PASS'}/;
-	push(@output, $line);
-}
-close(FH);
-
 open(OUT, ">mongo/create_admin.js") or die $!;
-print OUT join('', @output);
+print OUT "use admin\n";
+print OUT "db.createUser({user: \"$secrets{'MONGO_USER'}\", pwd: \"$secrets{'MONGO_PASS'}\", ".
+	  "roles: [\"root\"], mechanisms: [\"$secrets{'MONGO_AUTH_TYPE'}\"]})\n";
 close(OUT);
