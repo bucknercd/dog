@@ -23,7 +23,8 @@ RUN pip3 install \
 	uvicorn \
 	aiofiles \
 	python-dotenv \
-	pymongo
+	pymongo \
+	argon2
 	
 # Add demo app
 COPY api/Project/ /Project

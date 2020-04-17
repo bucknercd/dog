@@ -61,13 +61,13 @@ kill-api:
 build-mongo:
 	perl setup_create_admin.pl
 	docker build -t $(MONGO_IMAGE) -f mongodb.dockerfile .
-test-mongo:
-	docker run -it -p 10000:10000 --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE) /bin/bash
 run-mongo:
 	docker run -p 10000:10000 -d -v /home/chris/MONGO:/data/db --rm --name $(MONGO_CONTAINER) $(MONGO_IMAGE)
 shell-mongo:
 	docker exec -it $(MONGO_CONTAINER) bash
 kill-mongo:
+	docker kill $(MONGO_CONTAINER)
+remove-mongo:
 	docker rm $(MONGO_CONTAINER) -f
 	rm -rf /home/chris/MONGO/*
 
