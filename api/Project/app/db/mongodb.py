@@ -24,21 +24,17 @@ class MongoConnection(object):
         return True
 
     def insert(self, value, collection):
-        try:
-            value_obj = json.loads(value)
-        except ValueError as e:
-            print(f'ERROR: Invalid JSON data sent to insert(). {e}')
-            return False
         if collection == 'users':
-            self.db.users.insert(value_obj)
+            _id = self.db.users.insert(value)
             print(f'User {value_obj} inserted!')
-        return True
+        return _id
 
-    def find(self, pattern):
-        pass
+    def find(self, pattern, collection):
+        if collection == 'users':
+            result = self.db.users.find(pattern)
+        return result
 
     def close_mongo_connection(self):
         self.client.close()
-
 
 conn = MongoConnection()

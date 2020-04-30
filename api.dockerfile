@@ -24,7 +24,7 @@ RUN pip3 install \
 	aiofiles \
 	python-dotenv \
 	pymongo \
-	argon2
+	argon2-cffi
 	
 # Add demo app
 COPY api/Project/ /Project

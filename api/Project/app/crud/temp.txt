@@ -1,2 +1,0 @@
-abstractions for performing certain db queries will go in this dir. wrappers for different areas of logic. Anywhere where way to much lines of code would have to go into the functions that 
-handle endpoint logic

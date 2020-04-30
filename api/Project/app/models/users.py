@@ -1,26 +1,27 @@
-from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
+from typing import List
+from .dogs import Dog
 
-app = FastAPI()
 
-
-class UserRegister(BaseModel):
+# user data to be returned to user from api
+class UserResponse(BaseModel):
     username: str
-    password: str
-    password_hash: str
     email: EmailStr = None
     full_name: str
-    dogs: list
+    dogs: List[Dog]
     zip_code: int
     phone_number: int
-    user_id: int = 0
 
-class UserLoginResponse(BaseModel):
-    full_name: str
-    user_id: str
+# register data coming from user and to be used in api as well
+class UserRegister(UserResponse):
+    password: str # not sure if needed
 
+# user data to be inserted in db
+class UserDB(UserResponse):
+    password_hash: str
+    password_salt: str
 
-class UserOut(BaseModel):
+class UserLogin(BaseModel):
     username: str
-    email: EmailStr
-    full_name: str = None
+    email: EmailStr = None
+    password: str
