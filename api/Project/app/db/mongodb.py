@@ -20,19 +20,8 @@ class MongoConnection(object):
             print(f'ERROR: Unable to connect to the mongo db.')
             return False
 
-        self.db = self.client.doggy
+        self.db = self.client[MONGO_DB]
         return True
-
-    def insert(self, value, collection):
-        if collection == 'users':
-            _id = self.db.users.insert(value)
-            print(f'User {value_obj} inserted!')
-        return _id
-
-    def find(self, pattern, collection):
-        if collection == 'users':
-            result = self.db.users.find(pattern)
-        return result
 
     def close_mongo_connection(self):
         self.client.close()

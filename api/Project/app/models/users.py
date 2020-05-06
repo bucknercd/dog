@@ -18,8 +18,8 @@ class UserRegister(UserResponse):
 
 # user data to be inserted in db
 class UserDB(UserResponse):
-    password_hash: str
-    password_salt: str
+    password_hash: str = None
+    password_salt: str = None
 
 class UserLogin(BaseModel):
     username: str

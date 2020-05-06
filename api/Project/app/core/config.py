@@ -25,5 +25,5 @@ MONGO_DB = os.getenv('MONGO_DB', 'doggy')
 MONGO_AUTH_TYPE = os.getenv('MONGO_AUTH_TYPE', 'SCRAM-SHA-1')
 
 database_name = MONGO_DB
-users_collection_name = 'users'
-cookies_collection_name = 'cookies'
+users_collection = 'users'
+cookies_collection = 'cookies'

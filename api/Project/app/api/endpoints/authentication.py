@@ -21,7 +21,7 @@ router = APIRouter()
             status_code=HTTP_201_CREATED
 )
 async def register(user: UserRegister):
-    print(f'{user}')
+    print(f'User in::: {user}')
     # goals: 
         # create a user in db
             # create a user obj ( a dict)
@@ -29,14 +29,14 @@ async def register(user: UserRegister):
             # get a user id! -- research here
             # create_user()
             # login()
-    _id = create_user(user)
-    print(f'_id: {_id}')
+    user_id = create_user(user)
+    print(f'_id: {user_id}')
 
-    #session_id = login_user(user.username, user.password)
-    #user = get_user(_id=_id)
+    user_out, session_cookie = login_user(user.username, user.password)
 
     #user_out = UserResponse(**user.dict())
     #user_out.full_name = user.full_name
+    print(f'User OUT::: {user_out}')
     #return user_out
 
 @router.post(
