@@ -1,20 +1,27 @@
-from bson.objectid import ObjectId
-from .cookies import is_valid_cookie, create_session_cookie
+import uuid
+from .cookies import is_valid_cookie, create_session_cookie, remove_old_cookies
 from ..models.users import UserDB
 from ..db.mongodb import conn
 from ..core.security import verify_password, generate_password_hash_and_salt
-from ..core.security import users_collection
+from ..core.config import users_collection
+
+import sys
 
 
 def create_user(user):
     dbuser = UserDB(**user.dict())
     dbuser.password_hash, dbuser.password_salt = generate_password_hash_and_salt(user.password)
+    dbuser.user_id = str(uuid.uuid1())
     _id = conn.db[users_collection].insert(dbuser.dict())
-    return _id
+    if _id:
+        print("User created.")
+        #sys.exit()
+        return _id
+    else:
+        return None
     #print(f'{val}')
 
 def login_user(username, password, session_cookie=None):
-    pass
     # check request header for a session cookie
     # check for cookie and verify that it is valid
     # case one: no cookie
@@ -26,24 +33,30 @@ def login_user(username, password, session_cookie=None):
     dbuser = get_user(username=username)
     if not dbuser:
         return
-    valid_cookie = is_valid_cookie(session_cookie, dbuser._id.__str__())
+    print(f'dbuser: {dbuser}')
+    remove_old_cookies(dbuser.user_id)
+
     if session_cookie:
-        if valid_cookie:
-            pass # log on
+        if is_valid_cookie(session_cookie, dbuser.user_id):
+            dbuser = get_user(dbuser.user_id)
+            print("LOGGED ON via COOKIE")
     else:
         if verify_password(password, dbuser.password_hash, dbuser.password_salt):
             # valid pass
-            create_session_cookie(dbuser._id.__str__())
-            pass
+            session_cookie = create_session_cookie(dbuser.user_id)
+            dbuser = get_user(dbuser.user_id)
+            print("LOGGED ON via USER/PASS")
         else:
             # invalid pass
-            pass
+            print("INCORRECT PASSWORD")
+            dbuser = "BOGUS USER"
+    return dbuser, session_cookie
 
 def get_user(user_id=None, username=None):
     user = None
     if user_id:
-        user = conn.db[users_collection].find({"_id": ObjectId(user_id)})
+        row = conn.db[users_collection].find_one({"user_id": user_id})
     elif username:
-        user = conn.db[users_collection].find({"username": username})
-    return user
+        row = conn.db[users_collection].find_one({"username": username})
+    return UserDB(**row)
     

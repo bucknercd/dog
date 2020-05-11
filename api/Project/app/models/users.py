@@ -18,6 +18,7 @@ class UserRegister(UserResponse):
 
 # user data to be inserted in db
 class UserDB(UserResponse):
+    user_id: str = None
     password_hash: str = None
     password_salt: str = None
 

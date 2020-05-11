@@ -5,8 +5,7 @@ from starlette.datastructures import CommaSeparatedStrings, Secret
 
 API_V1_STR = '/api'
 
-JWT_TOKEN_PREFIX = 'Token'
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # one week
+ACCESS_COOKIE_EXPIRE_SECONDS = 60 * 60 * 24 * 7  # one week in seconds
 
 load_dotenv('.env')
 

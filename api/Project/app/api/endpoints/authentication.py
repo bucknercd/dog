@@ -29,10 +29,14 @@ async def register(user: UserRegister):
             # get a user id! -- research here
             # create_user()
             # login()
-    user_id = create_user(user)
-    print(f'_id: {user_id}')
-
+    _id = create_user(user)
+    print(f'_id: {_id}')
+    if not _id:
+        print("USER NOT CREATED!")
+        return _id
+    #user_out, session_cookie = 
     user_out, session_cookie = login_user(user.username, user.password)
+    
 
     #user_out = UserResponse(**user.dict())
     #user_out.full_name = user.full_name
@@ -59,6 +63,6 @@ async def login(user: UserLogin, session_id: str = Cookie(None)):
     #     add this cookie to resp header
     #     return UserResponse crafted from UserDB
     # 
-    dbuser = get_user(user.username)
-
+    user_out, session_cookie = login_user(user.username, user.password)
+    return user_out
 

@@ -70,6 +70,8 @@ kill-mongo:
 remove-mongo:
 	docker rm $(MONGO_CONTAINER) -f
 	rm -rf /home/chris/MONGO/*
+logs-mongo:
+	docker logs $(MONGO_CONTAINER)
 
 
 clean:
