@@ -6,6 +6,8 @@ WEBAPP_CONTAINER_2=web-app_container_2_doggy
 WEBAPP_CONTAINER_3=web-app_container_3_doggy
 API_IMAGE=api_doggy
 API_CONTAINER=api_container_doggy
+API_CONTAINER_2=api_container_2_doggy
+API_CONTAINER_3=api_container_3_doggy
 MONGO_IMAGE=mongo_image_doggy
 MONGO_CONTAINER=mongo_container_doggy
 
@@ -37,7 +39,7 @@ run-web-app-3:
 shell-web-app:
 	docker exec -it $(WEBAPP_CONTAINER) bash
 test-web-app:
-	docker run -it -p 9000:80 --rm --name $(WEBAPP_CONTAINER) $(WEBAPP_IMAGE) /bin/bash
+	docker run -p 9000:80 --rm --name $(WEBAPP_CONTAINER) $(WEBAPP_IMAGE)
 kill-web-app:
 	docker rm $(WEBAPP_CONTAINER) -f
 kill-web-app-2:
@@ -77,13 +79,13 @@ logs-mongo:
 clean:
 	docker system prune
 	make kill-nginx
-	make kill-web-app
-	make kill-web-app-2
-	make kill-web-app-3
+	make kill-api
+	make kill-api-2
+	make kill-api-3
 doggy:
 	make build-nginx
-	make build-web-app
+	make build-api
 	make run-nginx
-	make run-web-app
-	make run-web-app-2
-	make run-web-app-3
+	make run-api
+	make run-api-2
+	make run-api-3

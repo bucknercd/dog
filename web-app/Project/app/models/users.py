@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import List
 from .dogs import Dog
-from .cookies import Cookie
+
 
 class BaseUser(BaseModel):
     username: str
@@ -19,15 +19,7 @@ class UserResponse(BaseUser):
 class UserRegister(BaseUser):
     password: str
 
-# user data to be inserted in db
-class UserDB(UserResponse):
-    password_hash: str = None
-    password_salt: str = None
-
 class UserLogin(BaseModel):
     username: str
     password: str
     remember_me: bool = False
-
-class LoginResponse(UserResponse):
-    cookie: Cookie

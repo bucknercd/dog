@@ -3,9 +3,8 @@ import os
 from dotenv import load_dotenv
 from starlette.datastructures import CommaSeparatedStrings, Secret
 
-API_V1_STR = '/api'
-
-ACCESS_COOKIE_EXPIRE_SECONDS = 60 * 60 * 24 * 7  # one week in seconds
+ACCESS_COOKIE_EXPIRE_SECONDS = 60 * 60 # one hour in seconds
+REMEMBER_ME_COOKIE_EXPIRE_SECONDS = 60 * 60 * 24 * 7 # one week in seconds
 
 load_dotenv('.env')
 
@@ -23,6 +22,5 @@ MONGO_PASS = os.getenv('MONGO_PASS', 'password')
 MONGO_DB = os.getenv('MONGO_DB', 'doggy')
 MONGO_AUTH_TYPE = os.getenv('MONGO_AUTH_TYPE', 'SCRAM-SHA-1')
 
-database_name = MONGO_DB
 users_collection = 'users'
 cookies_collection = 'cookies'

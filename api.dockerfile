@@ -26,7 +26,6 @@ RUN pip3 install \
 	pymongo \
 	argon2-cffi
 	
-# Add demo app
 COPY api/Project/ /Project
 COPY .env /Project
 WORKDIR /Project

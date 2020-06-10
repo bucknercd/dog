@@ -11,3 +11,4 @@ class Cookie(BaseModel):
     value: str
     user_id: str
     create_date: str
+    remember_me: bool = False

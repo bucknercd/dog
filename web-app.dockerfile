@@ -22,9 +22,11 @@ RUN pip3 install \
 	gunicorn \
 	uvicorn \
 	jinja2 \
-	aiofiles
-	
-# Add demo app
-COPY web-app/Dog/ /Dog
-WORKDIR /Dog
-CMD uvicorn app:app --host 0.0.0.0 --port 80
+	aiofiles \
+	python-dotenv
+
+COPY web-app/Project/ /Project
+COPY .env /Project
+WORKDIR /Project
+CMD python3 start_server.py
+#CMD uvicorn app:app --host 0.0.0.0 --port 80
