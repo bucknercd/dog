@@ -1,3 +1,4 @@
 .env
 .vscode
 mongo/create_admin.js
+ssl/*
