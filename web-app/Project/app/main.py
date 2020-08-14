@@ -25,8 +25,7 @@ async def get_index(request: Request):
         res = requests.get(url.encode())
         print(f'res json: {res.json()}')
         if res.status_code == 200:
-            user_attrs = json.loads(res.json())
-            user_obj.update(user_attrs)
+            user_obj.update(res.json())
     return templates.TemplateResponse('index.html', user_obj)
 
 @app.get(
@@ -45,14 +44,16 @@ async def register(user: UserRegister, request: Request):
     user_obj = {'request': request}
     res = requests.post(url.encode(), data=user.json())
     if res.status_code == 201:
-        user_attrs = json.loads(res.json())
+        user_attrs = res.json()
         user_obj.update(user_attrs)
         user.obj.update({'title': 'home'})
         return templates.TemplateResponse('login.html', user_obj)
     else:
         user_obj.update({'title': 'register'})
         user_obj.update(user.dict())
-        return templates.TemplateResponse('register.html', user_obj)
+        response = templates.TemplateResponse('register.html', user_obj)
+        response.status_code = 404
+        return response
     
 @app.get('/login',
         status_code=200,
@@ -62,7 +63,7 @@ async def login(request: Request):
     print(f'headers: {request.headers}')
     response = templates.TemplateResponse('login.html', {'request': request, 'title': 'login'})
     #response.delete_cookie('LS')
-    response.set_cookie(key='LS', value='', expires=UNIX_EPOCH_GMT, httponly=True,secure=True)
+    #response.set_cookie(key='LS', value='', expires=UNIX_EPOCH_GMT, httponly=True,secure=True)
     return response
 
 
@@ -84,20 +85,34 @@ async def login(request: Request,
     res = requests.post(url.encode(), data=user.json())
     if res.status_code == 200:
         print(f'login resp: {res.json()}')
-        login_resp = json.loads(res.json())
+        login_resp = res.json()
         session_cookie = login_resp['cookie']
         login_resp.pop('cookie', None)
         user = login_resp
         user_obj.update(user)
+        print(f'user: {user_obj}')
         response = templates.TemplateResponse('index.html', user_obj)
-        response.set_cookie(key=session_cookie.key, value=session_cookie.value, httponly=True,secure=True)
-    elif res.status_code == 404:
-        print(f'404 resp: {res.content}')
-        print(f'404 resp json: {res.json()}')
+        response.set_cookie(key=session_cookie['key'], value=session_cookie['value'], httponly=True, secure=True)
+    elif res.status_code == 401:
+        print(f'401 resp: {res.content}')
+        print(f'401 resp json: {res.json()}')
         user_obj.update(res.json())
         response = templates.TemplateResponse('login.html', user_obj)
-        response.status_code = 404
+        response.status_code = 401
     return response
+
+
+@app.get('/logout',
+        status_code=200,
+)
+async def login(request: Request):
+    print(f'cookies (req): {request.cookies}')
+    print(f'headers: {request.headers}')
+    response = templates.TemplateResponse('logout.html', {'request': request, 'title': 'logout'})
+    response.delete_cookie('LS')
+    #response.set_cookie(key='LS', value='', expires=UNIX_EPOCH_GMT, httponly=True,secure=True)
+    return response
+
 
 @app.get('/pricing')
 async def get_pricing(request: Request):

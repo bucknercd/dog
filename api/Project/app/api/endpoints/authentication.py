@@ -83,7 +83,7 @@ async def login(request: Request,
     #
     user, session_cookie = login_user(login.username, login.password, login.remember_me)        
     if not user:
-        raise HTTPException(status_code=404, detail="Invalid username and/or password.")
+        raise HTTPException(status_code=401, detail="Invalid username and/or password.")
     login_dict = user.dict()
     login_dict['cookie'] = session_cookie.dict()
     print(f'login dict: LoginResponse => {login_dict}')

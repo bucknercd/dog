@@ -21,7 +21,7 @@ class MongoConnection(object):
             return False
 
         self.db = self.client[MONGO_DB]
-        self.db[users_collection].create_index([('username', pymongo.DESCENDING), ('user_id', pymongo.ASCENDING)], unique=True)
+        self.db[users_collection].create_index('username', unique=True)
         return True
 
     def close_mongo_connection(self):

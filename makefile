@@ -85,7 +85,7 @@ clean:
 doggy:
 	make build-nginx
 	make build-api
+	make build-web-app
 	make run-nginx
 	make run-api
-	make run-api-2
-	make run-api-3
+	make run-web-app

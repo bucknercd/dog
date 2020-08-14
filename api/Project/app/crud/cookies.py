@@ -9,6 +9,12 @@ from ..db.mongodb import conn
 from ..core.config import cookies_collection, ACCESS_COOKIE_EXPIRE_SECONDS, REMEMBER_ME_COOKIE_EXPIRE_SECONDS
 
 
+def get_cookie(session_id):
+    row = conn.db[cookies_collection].find_one({"key": "LS", "value": session_id})
+    if row:
+        return Cookie(**row)
+    return None
+
 def get_db_cookies(user_id=None, cookie_type='session'):
     if not user_id:
         return ''
